@@ -1,64 +1,74 @@
+<div align="center">
+
 # 内存球 · Memory Ball
 
-Windows 桌面悬浮监控工具，包含原版与网络版。两版保留独立源码、配置和构建输出，方便分别维护。
+**电脑状态，一眼就知道。**
 
-| 版本 | 目录 | 功能 |
+一个放在 Windows 桌面上的小小悬浮球。随时看内存，点击看详情，展开查看进程、显卡与网络状态。
+
+**[下载网络版](https://github.com/Pikasn/memory-ball/releases/latest/download/MemoryBall-Network.exe)** · **[下载原版](https://github.com/Pikasn/memory-ball/releases/latest/download/MemoryBall.exe)** · [查看全部版本](https://github.com/Pikasn/memory-ball/releases)
+
+Windows 10 / 11 · 64 位 · 免安装 · 无需安装 Python
+
+</div>
+
+---
+
+## 小小一颗，随时看清电脑状态
+
+内存球把常用的系统状态放在桌面一角：平时用圆环和百分比显示内存占用，需要时点开详情卡片。查看内存变化、寻找占用较高的程序，或留意下载时的网络速度，都能直接在桌面完成。
+
+- **内存占用，抬眼可见**：圆环进度、占用百分比与已用 / 总内存一起呈现，按占用程度显示状态颜色。
+- **把变化连成曲线**：查看一段时间内的内存趋势，了解占用是在缓慢增长，还是短时波动。
+- **找到占内存的程序**：展开 Top 5 进程列表，同名进程合并显示占用与实例数；需要时可从列表操作菜单结束进程。
+- **显卡信息放在一起**：查看显卡型号，以及驱动支持的温度和利用率。
+- **上传下载随时掌握**：网络版显示实时上传、下载速度和两条趋势曲线，提供 60 秒、5 分钟、10 分钟视图。
+
+## 让它适应你的桌面
+
+提供浅色、深色与跟随系统主题。悬浮球可在 64 / 72 / 96 三档尺寸间切换，支持拖动位置；详情卡片也能拖动和缩放，适配不同桌面布局。
+
+刷新间隔可选 1 / 2 / 4 秒，兼顾响应速度与常驻使用。置顶、悬停展开、历史趋势、进程列表和开机启动等选项，都可以按自己的习惯设置。系统托盘保留入口，方便随时找回或退出程序。
+
+## 下载与选择
+
+下载后把 EXE 放进一个固定文件夹，双击即可运行。
+
+| 版本 | 适合谁 | 下载 |
 | --- | --- | --- |
-| 原版 | `original/` | 内存占用、趋势、进程列表、GPU 信息、托盘与主题设置 |
-| 网络版 | `network/` | 在内存监控基础上增加本机网卡上传、下载速度与趋势；增强 GPU 识别 |
+| **网络版** | 希望同时查看内存、进程、显卡和上传下载速度 | [MemoryBall-Network.exe](https://github.com/Pikasn/memory-ball/releases/latest/download/MemoryBall-Network.exe) |
+| **原版** | 主要关注内存占用、趋势与进程信息 | [MemoryBall.exe](https://github.com/Pikasn/memory-ball/releases/latest/download/MemoryBall.exe) |
 
-支持 Windows 10 / 11，建议使用带 Tk 的 64 位 Python 3.11。GPU 传感器是否可用取决于设备与驱动，不可用时显示未知状态。网络速度来自本地网卡计数，包含局域网流量。
+[版本记录与全部下载文件 →](https://github.com/Pikasn/memory-ball/releases)
 
-## 从源码运行
+## 怎么用
 
-在仓库根目录执行：
+| 操作 | 效果 |
+| --- | --- |
+| 点击悬浮球 | 展开或收起详情卡片 |
+| 拖动悬浮球 | 调整桌面位置 |
+| 拖动详情卡片 | 移动详情位置 |
+| 拖动详情卡片右下角 | 调整卡片大小 |
+| 点击趋势图上方的时间选项 | 切换观察时段 |
+| 点击进程列表中的一行 | 打开该进程的操作菜单 |
+| 右键悬浮球 | 打开设置或退出程序 |
 
-```powershell
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\pythonw.exe original/source/memory_widget.py
-# 或运行网络版
-.\.venv\Scripts\pythonw.exe network/source/memory_widget.py
-```
+关闭详情卡片后，悬浮球仍会继续工作。需要完全关闭程序时，在右键菜单中选择“退出”。
 
-点击悬浮球打开详情，拖动调整位置；右键打开设置或退出。程序支持查看进程占用及用户主动结束进程。
+## 读懂这些数字
 
-## 构建单文件 EXE
+**内存**显示 Windows 返回的物理内存占用。进程列表按工作集统计并合并同名进程，因此各进程数值与系统总占用的含义有所不同。
 
-```powershell
-.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
-.\.venv\Scripts\python.exe tools/build.py original
-.\.venv\Scripts\python.exe tools/build.py network
-```
+**网络速度**来自本机网卡的实际收发计数，包含局域网流量，适合观察当前传输活动。KB/s、MB/s 使用十进制字节单位；宽带测速衡量的是另一类指标。
 
-产物分别为 `original/build/MemoryWidget.exe` 和 `network/build/内存球网络版.exe`。构建目录、日志和 EXE 不进入版本控制；发布二进制前应从本仓库源码重新构建并单独检查。
+**显卡传感器**取决于设备和驱动支持情况。无法读取温度或利用率时，界面会显示未知状态；网络读数暂不可用时显示“—”。
 
-## 检查
+## 问题与建议
 
-```powershell
-python tools/check_privacy.py
-python tools/check_syntax.py
-python -m unittest discover -s network/tools -p "test_*.py"
-python network/tools/check_portable_faults.py
-python original/tools/check_dpi_change.py
-python original/tools/check_chart_startup.py
-```
+遇到问题，或希望增加功能，可以[提交 Issue](https://github.com/Pikasn/memory-ball/issues)。描述使用的版本、预期效果与复现步骤，会更方便定位。
 
-图形界面检查需交互式 Windows 桌面：
+## 开发与构建
 
-```powershell
-python original/tools/check_memory_widget_ui.py
-python network/tools/check_network_ui.py --no-capture
-```
+项目包含两套独立实现：原版在 [`original/`](original/)，网络版在 [`network/`](network/)。使用 Python 3.11、Tk 和 Windows 原生接口，支持打包为单文件 EXE。
 
-其他保留的检查脚本在各版本 `tools/` 目录。部分脚本可在本地生成界面图片、诊断报告或读取实时硬件状态；这些输出仅供本地检查，不提交仓库。
-
-## 隐私与维护
-
-公开仓库只包含经过筛选的代码、应用图标、合成测试和维护文档。个人配置、真实运行记录、截图、旧 EXE 和归档均未导入；仓库从新的首次提交开始。
-
-原版配置保存在源码或 EXE 同目录的 `settings.json`；网络版保存在 `%LOCALAPPDATA%/MemoryNetWidget`，可用 `MEMORYNET_DATA_DIR` 指定本地目录。均由运行程序在使用者电脑上生成，默认忽略。
-
-公开版使用通用单实例标识。它与既有本地版本的标识可能不同，升级时请先退出旧实例。
-
-后续可让 Codex 基于本仓库修改、验证并提交更新。维护规则见 [AGENTS.md](AGENTS.md)，脱敏范围见 [PRIVACY.md](PRIVACY.md)。
+源码运行、构建和检查方法见 [开发指南](docs/development.md)。
