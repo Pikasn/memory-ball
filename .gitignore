@@ -1,0 +1,42 @@
+# Local settings, secrets and diagnostics
+.env
+.env.*
+!.env.example
+*settings*.json
+*.log
+*.dmp
+*_trace.txt
+*.pem
+*.key
+*.pfx
+*.p12
+credentials*
+secrets*
+
+# Python and build products
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+build/
+dist/
+*.spec
+*.exe
+*.dll
+*.prev*
+*.zip
+
+# Local test evidence and captures
+evidence/
+captures/
+screenshots/
+outputs/
+*.bmp
+*.png
+*.jpg
+*.jpeg
+*.webp
+.pytest_cache/
+.coverage
+.idea/
+.vscode/
