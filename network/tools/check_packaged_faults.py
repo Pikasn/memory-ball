@@ -164,7 +164,13 @@ def main():
         assert proc.poll() is None
         report['cases'].append({'case':'duplicate-launch','status':'PASS'})
         print('duplicate-launch PASS',flush=True)
+        # Tk font caches and asynchronous GPU discovery can allocate resources
+        # after the first window appears. Measure the steady state after this
+        # initialization, retaining the same growth limits and 75-second window.
+        print('steady-state warmup: 30 seconds',flush=True)
+        time.sleep(30)
         samples=[]
+        report['steady_state_samples']=samples
         started=time.monotonic()
         for index in range(16):
             assert proc.poll() is None,'EXE stopped during steady-state monitoring'
